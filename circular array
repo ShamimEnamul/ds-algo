@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+int countRotation(int arr[], int len){
+	//get the element low and high
+	int low=0, high = len - 1, mid;
+
+	//iterate until low<=high
+	while(low<=high){
+		//get the middle element
+		mid = low + (high - low)/2;
+		//check the value of low <= high, then the portion seems sorted and low will be the smallest one.
+		if(arr[low] <= arr[high]){
+			return low;
+		}
+		//get the prev and next index of middle
+		int next = (mid + 1)%len;
+		int prev = (mid - 1 + len)%len;
+		//check the value of mid with next and prev. if both are bigger than the mid then the mid value is the smallest one
+		if(arr[mid] <= arr[next] && arr[mid] <= arr[prev]){
+			return mid;
+		}
+		//otherwise, check if the mid is lower than higher. if true, the remove the portion and set the high to mid-1
+		else if(arr[mid] <= arr[high]){
+			high = mid - 1;
+		}
+		//otherwise, check if mid bigger than low, then remove the portion and set the low to mid+1
+		else if(arr[mid] >= arr[low]){
+            low = mid + 1;
+		}
+	}
+
+return -1;
+}
+
+
+int main(){
+	int arr[] = {12,13,13,14,1,2,4};
+	int len = sizeof(arr)/sizeof(arr[0]);
+	cout << countRotation(arr, len);
+}
