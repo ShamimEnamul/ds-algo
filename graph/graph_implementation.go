@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func newGraph() *map[int][]int {
 	graph := make(map[int][]int)
@@ -11,6 +13,29 @@ func addNewEdges(graph map[int][]int, v int, w int) *map[int][]int {
 	graph[v] = append(graph[v], w)
 	return &graph
 }
+
+func bfs(graph map[int][]int, startVertices int) {
+	var queue []int
+	var visitedList []bool
+	fmt.Println(queue, graph)
+	queue[0] = startVertices
+	visitedList[queue[0]] = true
+	fmt.Println(queue, graph)
+	for len(queue) > 0 {
+		temp := queue[0]
+		fmt.Println(" ", temp)
+		queue = queue[1:]
+		for _, val := range graph[temp] {
+			if !visitedList[val] {
+				queue = append(queue, val)
+				visitedList[queue[val]] = true
+			}
+
+		}
+	}
+
+}
+
 func main() {
 	// initialize a graph
 	g := newGraph()
@@ -27,4 +52,5 @@ func main() {
 	g = addNewEdges(*g, 4, 2)
 
 	fmt.Println(g)
+	bfs(*g, 0)
 }
